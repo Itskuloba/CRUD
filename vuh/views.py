@@ -17,17 +17,29 @@ def insert(request):
         school = request.POST.get('school')
         email = request.POST.get('email')
 
-
-        person= People(name=name, school=school, email=email)
+        person = people(name=name, school=school, email=email)
         person.save()
 
-        #print(name, school, email)
+        # print(name, school, email)
 
+    return render(request, "home.html")
 
-    return render(request,"home.html")
 
 def people(request):
     d = People.objects.all()
 
-    context = {"data":d}
+    context = {"data": d}
     return render(request, 'people.html', context)
+
+
+def delete(request, id):
+    dd = People.objects.get(id=id)
+    dd.delete()
+
+    return HttpResponse("Delete successful")
+
+
+def update(request, id):
+    l = People.objects.get(id=id)
+
+    return render(request, "edit.html", {"l": l})
